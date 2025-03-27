@@ -5,11 +5,11 @@ rank-bm25
 tokenizers
 onnxruntime
 
-selenium
-webdriver-manager
-
 gradio
 fastapi
 uvicorn
 requests
 pyinstaller
+
+# selenium
+# webdriver-manager
