@@ -152,7 +152,7 @@ class Object_HYSE:
         self.search_engine_2.update(docs)
         self.search_engine_3.update(docs)
         self.search_engine_4.update(docs)
-    def search(self, queries, top=3):
+    def search(self, queries, top=5):
         res_search_1 = self.search_engine_1.search(queries)
         res_search_2 = self.search_engine_2.search(queries)
         res_search_3 = self.search_engine_3.search(queries)

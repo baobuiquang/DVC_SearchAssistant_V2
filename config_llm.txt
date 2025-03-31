@@ -1,0 +1,2 @@
+http://192.168.80.99:11434/v1/chat/completions
+qwen2.5:14b
