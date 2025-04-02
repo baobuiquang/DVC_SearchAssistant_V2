@@ -6,8 +6,8 @@ from huggingface_hub import hf_hub_download as HF_Download
 import onnxruntime as ort
 import numpy as np
 import os
-from pkg.NLPT.NLPT import Process_NLPT_Normalize
-from pkg.NLPT.NLPT import Process_NLPT_Tokenize
+from bin.NLPT.NLPT import Process_NLPT_Normalize
+from bin.NLPT.NLPT import Process_NLPT_Tokenize
 
 from rank_bm25 import BM25Okapi as BM25_Retriever
 from tokenizers import Tokenizer as STL_Tokenizer

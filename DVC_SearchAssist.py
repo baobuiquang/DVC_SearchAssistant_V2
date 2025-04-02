@@ -1,5 +1,3 @@
-from pkg.HYSE.HYSE import Object_HYSE
-from pkg.LLM.LLM import Process_LLM
 import numpy as np
 import json
 import csv
@@ -77,12 +75,14 @@ with open("url/cache_2", mode="r", newline="", encoding="utf-8") as f:
 # -----
 # Create/update HYSE db if needed
 docs = [f"{e['name']}" for e in thutucs]
+from bin.HYSE.HYSE import Object_HYSE
 hyse_engine = Object_HYSE()
 for i in range(0, len(docs), 50):
     print(i, end=" ")
     hyse_engine.update(docs[:i])
     # time.sleep(3)
 hyse_engine.update(docs)
+from bin.LLM.LLM import Process_LLM
 
 # ====================================================================================================
 # ====================================================================================================
