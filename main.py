@@ -45,6 +45,9 @@ main { margin-bottom: 24px !important; max-width: 900px !important; }
 #cmp_textbox textarea { background: transparent !important; }
 .message.bot { margin-top: 16px !important; }
 .message-content { margin: 16px 8px !important; }
+.icon-button-wrapper button[title="Clear"]::after { content: "Clear"; padding: 0 2px; }
+#cmp_chatbot .placeholder img { height: 32px; }
+#component-9 { border: solid #808080 1px !important; }
 """
 
 def fn_chatbot(message, history):
@@ -70,19 +73,23 @@ demo = gr.ChatInterface(
     title="Chatbot hỗ trợ tìm kiếm thủ tục",
     fn=fn_chatbot, 
     type="messages", theme=theme, head=head, css=css, analytics_enabled=False,
-    chatbot=gr.Chatbot(elem_id="cmp_chatbot", type="messages", group_consecutive_messages=False, container=False),
+    chatbot=gr.Chatbot(elem_id="cmp_chatbot", type="messages", group_consecutive_messages=False, container=False,
+        placeholder="![image](https://raw.githubusercontent.com/baobuiquang/DVC_SearchAssistant_V2/refs/heads/main/static/logo.png)\n## Xin chào!\nMình là chatbot hỗ trợ tìm kiếm thủ tục dịch vụ công.",
+        avatar_images=(None, "https://raw.githubusercontent.com/baobuiquang/DVC_SearchAssistant_V2/refs/heads/main/static/logo.png")),
     textbox=gr.Textbox(elem_id="cmp_textbox", submit_btn=True, stop_btn=True, placeholder="Nhập câu hỏi ở đây"),
     examples = [
         "Vợ tôi sắp sinh con tôi cần làm gì?",
         "Giấy tờ cần thiết để mình khởi nghiệp.",
         "Tôi muốn tố cáo hàng xóm trồng cần sa.",
-        "Làm sao để cưới vợ?",
+        "Tôi muốn thành lập công ty tnhh 1 thành viên",
         "Tôi muốn thành lập công ty tnhh 2 thành viên",
-        "Tôi muốn thành lập công ty tnhh 3 thành viên",
-        "Mình muốn cưới chồng người nước ngoài",
-        "Cháu muốn phúc khảo bài thi thpt của cháu",
-        # "hello bro",
-        # "\n",
+        "Tôi muốn thành lập công ty tnhh 9 thành viên",
+        "Đấu thầu đất xây dựng",
+        "Làm sao để cưới chồng?",
+        "Đất đai",
+        "Thủ tục chuyển trường cấp 3",
+        "Cấp lý lịch tư pháp",
+        "Cháu muốn phúc khảo bài thi thpt",
     ],
 )
 app = gr.mount_gradio_app(app, demo, path="/demo")

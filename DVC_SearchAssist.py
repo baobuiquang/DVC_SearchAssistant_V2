@@ -18,12 +18,12 @@ def thutuc2content(thutuc_item):
 <p>{thutuc_item['Cách thức thực hiện'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Cách thức thực hiện']) > CHARACTERS_LIMIT else ''}</p>\
 <h3>Yêu cầu, điều kiện:</h3>\
 <p>{thutuc_item['Yêu cầu, điều kiện'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Yêu cầu, điều kiện']) > CHARACTERS_LIMIT else ''}</p>\
-<h3>Thời gian giải quyết:</h3>\
-<p>{thutuc_item['Thời gian giải quyết'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Thời gian giải quyết']) > CHARACTERS_LIMIT else ''}</p>\
 <h3>Kết quả:</h3>\
 <p>{thutuc_item['Kết quả'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Kết quả']) > CHARACTERS_LIMIT else ''}</p>\
 <h3>Xem đầy đủ văn bản thủ tục tại:</h3>\
 <a href='{thutuc_item['link']}' target='_blank'>{thutuc_item['link']}</a>"""
+# <h3>Thời gian giải quyết:</h3>\
+# <p>{thutuc_item['Thời gian giải quyết'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Thời gian giải quyết']) > CHARACTERS_LIMIT else ''}</p>\
 # <h3>Tên mẫu đơn, tờ khai:</h3>\
 # <p>{thutuc_item['Tên mẫu đơn, tờ khai'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Tên mẫu đơn, tờ khai']) > CHARACTERS_LIMIT else ''}</p>\
 # <h3>Đối tượng thực hiện:</h3>\
@@ -91,7 +91,7 @@ hyse_engine.update(docs)
 def DVC_SearchAssist(input_text):
     # ================================================== HYSE Search
     # -----
-    queries = [input_text]
+    queries = [input_text.strip()]
     hyse_search_result = hyse_engine.search(queries)
 
     # -----
@@ -113,23 +113,23 @@ def DVC_SearchAssist(input_text):
         }
     }"""
     prompt_1 = f"""\
-    Bạn sẽ được cung cấp: (1) Câu hỏi của người dùng, (2) Danh sách thủ tục hiện có, và (3) Schema cấu trúc của kết quả.
-    Nhiệm vụ của bạn là: (4) Trích xuất duy nhất 1 thủ tục liên quan nhất đến câu hỏi của người dùng.
+Bạn sẽ được cung cấp: (1) Câu hỏi của người dùng, (2) Danh sách thủ tục hiện có, và (3) Schema cấu trúc của kết quả.
+Nhiệm vụ của bạn là: (4) Trích xuất duy nhất 1 thủ tục liên quan nhất đến câu hỏi của người dùng.
 
-    ### (1) Câu hỏi của người dùng:
-    "{input_text}"
+### (1) Câu hỏi của người dùng:
+"{input_text}"
 
-    ### (2) Danh sách thủ tục hiện có:
-    {p_danhsachthutuc}
+### (2) Danh sách thủ tục hiện có:
+{p_danhsachthutuc}
 
-    ### (3) Schema cấu trúc của kết quả:
-    {p_json_schema_1}
+### (3) Schema cấu trúc của kết quả:
+{p_json_schema_1}
 
-    ### (4) Nhiệm vụ:
-    Từ câu hỏi của người dùng, tìm ra duy nhất 1 thủ tục liên quan nhất đến câu hỏi của người dùng, tuân thủ schema một cách chính xác.
-    Lưu ý quan trọng: Nếu không có thủ tục nào liên quan, trả về "Không có thủ tục liên quan".
-    Định dạng kết quả: Không giải thích, không bình luận, không văn bản thừa. Chỉ trả về kết quả JSON hợp lệ. Bắt đầu bằng "{{", kết thúc bằng "}}".
-    """
+### (4) Nhiệm vụ:
+Từ câu hỏi của người dùng "{input_text}", tìm ra duy nhất 1 thủ tục liên quan nhất đến câu hỏi, tuân thủ schema một cách chính xác.
+Lưu ý quan trọng: Nếu không có thủ tục nào liên quan, trả về "Không có thủ tục liên quan".
+Định dạng kết quả: Không giải thích, không bình luận, không văn bản thừa. Chỉ trả về kết quả JSON hợp lệ. Bắt đầu bằng "{{", kết thúc bằng "}}".
+"""
 
     # ================================================== LLM Processing and Final
 
@@ -178,6 +178,10 @@ def DVC_SearchAssist(input_text):
                     hyse_search_result_sim_vs_llmres1 = similarities[llm_object_1_id_in_res]
                     # -----
                     hyse_search_result_filtered = [hyse_search_result[0][ell]["content"] for ell in [ill2 for ill2 in sorted(range(len(hyse_search_result_sim_vs_llmres1)), key=lambda ill: hyse_search_result_sim_vs_llmres1[ill], reverse=True) if hyse_search_result_sim_vs_llmres1[ill2] >= MIN_SIM_VS_LLMRES_TO_BE_SUGGESTED]]
+
+                    for exactmatch_thutucname in hyse_engine.search_engine_1.search(queries)[0][:5]: # Just add the exactmatchs, so more suggestions
+                        if exactmatch_thutucname not in hyse_search_result_filtered:
+                            hyse_search_result_filtered.append(exactmatch_thutucname)
                     # -----
                     suggest_thutucs = []
                     context_pool_from_suggestions = []
