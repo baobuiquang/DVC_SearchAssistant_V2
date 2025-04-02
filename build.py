@@ -5,18 +5,27 @@ import os
 
 BUILD_DIR = "build"
 
+# PyInstaller.__main__.run([
+#     f'{_build_config.PYTHON_FILE_NAME}',
+#     f'--name={_build_config.BUILD_NAME}',
+#     '--noconsole',
+#     '--clean',
+#     '--noconfirm',
+#     '--onedir',
+#     '--log-level=WARN',
+#     f'--distpath=./{BUILD_DIR}/dist',
+#     f'--workpath=./{BUILD_DIR}/temp',
+#     f'--specpath=./{BUILD_DIR}',
+#     '--contents-directory=bin',
+# ])
+
 PyInstaller.__main__.run([
-    f'{build_config.PYTHON_FILE_NAME}',
-    f'--name={build_config.BUILD_NAME}',
-    '--noconsole',
+    f'./{BUILD_DIR}/{build_config.BUILD_NAME}.spec',
     '--clean',
     '--noconfirm',
-    '--onedir',
     '--log-level=WARN',
     f'--distpath=./{BUILD_DIR}/dist',
     f'--workpath=./{BUILD_DIR}/temp',
-    f'--specpath=./{BUILD_DIR}',
-    '--contents-directory=bin',
 ])
 
 # Copy folders

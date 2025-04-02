@@ -4,3 +4,5 @@ __debug__/
 __venv__/
 .gradio/
 venv/
+build/temp/
+build/dist/
