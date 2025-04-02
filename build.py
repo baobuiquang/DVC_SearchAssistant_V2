@@ -44,3 +44,33 @@ def copy_folder(source, destination):
         print(f"An error occurred: {e}")
 for fld in build_config.FOLDERS_TO_ADD:
     copy_folder(f"{fld}", f"{BUILD_DIR}/dist/{build_config.BUILD_NAME}/{fld}")
+
+
+
+
+
+
+# ==========================================================================================
+
+import os
+import shutil
+
+def copy_if_not_exists(src, dst):
+    """Recursively copy files and folders from src to dst if they do not already exist."""
+    if not os.path.exists(dst):
+        os.makedirs(dst)
+    
+    for item in os.listdir(src):
+        src_path = os.path.join(src, item)
+        dst_path = os.path.join(dst, item)
+        
+        if os.path.isdir(src_path):
+            copy_if_not_exists(src_path, dst_path)
+        elif os.path.isfile(src_path):
+            if not os.path.exists(dst_path):
+                shutil.copy2(src_path, dst_path)
+                print(f"Copied: {src_path} -> {dst_path}")
+            else:
+                print(f"Skipped (already exists): {dst_path}")
+
+copy_if_not_exists("build/build_bin/bin", f"build/dist/{build_config.BUILD_NAME}/bin")
