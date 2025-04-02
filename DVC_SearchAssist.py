@@ -6,34 +6,34 @@ import csv
 import re
 
 def thutuc2content(thutuc_item):
-    CHARACTERS_LIMIT = 200
+    CHARACTERS_LIMIT = 300
     XEMCHITIET_TEXT = f"... <a href='{thutuc_item['link']}' target='_blank'>(xem chi tiết)</a>"
     bot_response = f"""\
 <h2>Thủ tục: {thutuc_item['name'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['name']) > CHARACTERS_LIMIT else ''}</h2>\
+<h3>Thành phần hồ sơ:</h3>\
+<p>{thutuc_item['Thành phần hồ sơ'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Thành phần hồ sơ']) > CHARACTERS_LIMIT else ''}</p>\
 <h3>Trình tự thực hiện:</h3>\
 <p>{thutuc_item['Trình tự thực hiện'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Trình tự thực hiện']) > CHARACTERS_LIMIT else ''}</p>\
 <h3>Cách thức thực hiện:</h3>\
 <p>{thutuc_item['Cách thức thực hiện'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Cách thức thực hiện']) > CHARACTERS_LIMIT else ''}</p>\
-<h3>Thành phần hồ sơ:</h3>\
-<p>{thutuc_item['Thành phần hồ sơ'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Thành phần hồ sơ']) > CHARACTERS_LIMIT else ''}</p>\
-<h3>Thời gian giải quyết:</h3>\
-<p>{thutuc_item['Thời gian giải quyết'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Thời gian giải quyết']) > CHARACTERS_LIMIT else ''}</p>\
-<h3>Đối tượng thực hiện:</h3>\
-<p>{thutuc_item['Đối tượng thực hiện'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Đối tượng thực hiện']) > CHARACTERS_LIMIT else ''}</p>\
-<h3>Cơ quan thực hiện:</h3>\
-<p>{thutuc_item['Cơ quan thực hiện'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Cơ quan thực hiện']) > CHARACTERS_LIMIT else ''}</p>\
-<h3>Kết quả:</h3>\
-<p>{thutuc_item['Kết quả'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Kết quả']) > CHARACTERS_LIMIT else ''}</p>\
-<h3>Phí, lệ phí:</h3>\
-<p>{thutuc_item['Phí, lệ phí'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Phí, lệ phí']) > CHARACTERS_LIMIT else ''}</p>\
-<h3>Tên mẫu đơn, tờ khai:</h3>\
-<p>{thutuc_item['Tên mẫu đơn, tờ khai'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Tên mẫu đơn, tờ khai']) > CHARACTERS_LIMIT else ''}</p>\
 <h3>Yêu cầu, điều kiện:</h3>\
 <p>{thutuc_item['Yêu cầu, điều kiện'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Yêu cầu, điều kiện']) > CHARACTERS_LIMIT else ''}</p>\
-<h3>Căn cứ pháp lý:</h3>\
-<p>{thutuc_item['Căn cứ pháp lý'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Căn cứ pháp lý']) > CHARACTERS_LIMIT else ''}</p>\
+<h3>Thời gian giải quyết:</h3>\
+<p>{thutuc_item['Thời gian giải quyết'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Thời gian giải quyết']) > CHARACTERS_LIMIT else ''}</p>\
+<h3>Kết quả:</h3>\
+<p>{thutuc_item['Kết quả'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Kết quả']) > CHARACTERS_LIMIT else ''}</p>\
 <h3>Xem đầy đủ văn bản thủ tục tại:</h3>\
 <a href='{thutuc_item['link']}' target='_blank'>{thutuc_item['link']}</a>"""
+# <h3>Tên mẫu đơn, tờ khai:</h3>\
+# <p>{thutuc_item['Tên mẫu đơn, tờ khai'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Tên mẫu đơn, tờ khai']) > CHARACTERS_LIMIT else ''}</p>\
+# <h3>Đối tượng thực hiện:</h3>\
+# <p>{thutuc_item['Đối tượng thực hiện'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Đối tượng thực hiện']) > CHARACTERS_LIMIT else ''}</p>\
+# <h3>Cơ quan thực hiện:</h3>\
+# <p>{thutuc_item['Cơ quan thực hiện'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Cơ quan thực hiện']) > CHARACTERS_LIMIT else ''}</p>\
+# <h3>Phí, lệ phí:</h3>\
+# <p>{thutuc_item['Phí, lệ phí'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Phí, lệ phí']) > CHARACTERS_LIMIT else ''}</p>\
+# <h3>Căn cứ pháp lý:</h3>\
+# <p>{thutuc_item['Căn cứ pháp lý'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Căn cứ pháp lý']) > CHARACTERS_LIMIT else ''}</p>\
     return bot_response
 
 def thutuc2context(thutuc_item):

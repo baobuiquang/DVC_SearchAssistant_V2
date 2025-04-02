@@ -94,7 +94,7 @@ class LexicalSearch:
         self.embs = [Process_NLPT_Tokenize(e) for e in self.docs]
         self.model = BM25_Retriever(self.embs)
         self.save()
-    def search(self, queries, top=5):
+    def search(self, queries, top=8):
         queries_embs = [Process_NLPT_Tokenize(e) for e in queries]
         best_matching_idxs = [self.model.get_top_n(query_emb, range(len(self.docs)), n=top) for query_emb in queries_embs]
         best_matching_docs = [[self.docs[idx] for idx in e] for e in best_matching_idxs]
@@ -134,7 +134,7 @@ class SemanticSearch:
         self.docs = [str(e) for e in saveddata["docs"]]
         self.embs = saveddata["embs"]
         # print(f"SemanticSearch > Load > {len(self.docs)} document(s) {'⚠️' if len(self.docs) != len(self.embs) else ''}")
-    def search(self, queries, top=5):
+    def search(self, queries, top=8):
         queries_embs = self.model.encode(queries)
         similarities = queries_embs @ self.embs.T
         best_matching_idxs = [[idx for idx, _ in sorted(enumerate(sim), key=lambda x: x[1], reverse=True)][:min(top, len(self.docs))] for sim in similarities]
@@ -152,7 +152,7 @@ class Object_HYSE:
         self.search_engine_2.update(docs)
         self.search_engine_3.update(docs)
         self.search_engine_4.update(docs)
-    def search(self, queries, top=5):
+    def search(self, queries, top=8):
         res_search_1 = self.search_engine_1.search(queries)
         res_search_2 = self.search_engine_2.search(queries)
         res_search_3 = self.search_engine_3.search(queries)
