@@ -1,2 +1,5 @@
 http://192.168.80.99:11434/v1/chat/completions
+gemma3:12b
+mygemma:12b
 qwen2.5:14b
+qwen2.5:7b
