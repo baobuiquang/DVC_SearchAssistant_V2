@@ -1,8 +1,9 @@
+python/
+venv/
 __pycache__/
 __hfcache__/
 __debug__/
 __venv__/
 .gradio/
-venv/
 build/temp/
 build/dist/
