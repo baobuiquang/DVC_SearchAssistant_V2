@@ -8,8 +8,8 @@ with open("config_llm.txt", "r") as f:
     config_llm = f.readlines()
     URL_OLLAMA = config_llm[0].strip()
     MDL_OLLAMA = config_llm[1].strip()
-print(URL_OLLAMA)
-print(MDL_OLLAMA)
+# print(URL_OLLAMA)
+# print(MDL_OLLAMA)
 
 class RequestInput:
     def __init__(self, prompt, stream=False, vendor="ollama"):

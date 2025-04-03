@@ -1,0 +1,15 @@
+ipywidgets
+ipykernel
+
+rank-bm25==0.2.2
+tokenizers==0.21.1
+onnxruntime==1.21.0
+
+gradio==5.23.3
+fastapi==0.115.12
+uvicorn==0.34.0
+requests==2.32.3
+pyinstaller==6.12.0
+
+# selenium
+# webdriver-manager
