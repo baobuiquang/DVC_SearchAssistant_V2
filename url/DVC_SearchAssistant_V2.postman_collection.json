@@ -1,0 +1,68 @@
+{
+	"info": {
+		"_postman_id": "134192be-e7f1-4f7b-a1c4-4256154dc679",
+		"name": "DVC_SearchAssistant_V2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43366618"
+	},
+	"item": [
+		{
+			"name": "timkiemthutuc",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://192.168.20.60:5002/?input_text=Làm sao để cưới vợ?",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"20",
+						"60"
+					],
+					"port": "5002",
+					"path": [
+						""
+					],
+					"query": [
+						{
+							"key": "input_text",
+							"value": "Giấy tờ cần thiết để mình khởi nghiệp.",
+							"disabled": true
+						},
+						{
+							"key": "input_text",
+							"value": "Vợ tôi sắp sinh con tôi cần làm gì?",
+							"disabled": true
+						},
+						{
+							"key": "input_text",
+							"value": "Tôi muốn tố cáo hàng xóm trồng cần sa.",
+							"disabled": true
+						},
+						{
+							"key": "input_text",
+							"value": "Làm sao để cưới vợ?"
+						},
+						{
+							"key": "input_text",
+							"value": "Tôi muốn thành lập công ty tnhh 3 thành viên",
+							"disabled": true
+						},
+						{
+							"key": "input_text",
+							"value": "Mình muốn cưới chồng người nước ngoài",
+							"disabled": true
+						},
+						{
+							"key": "input_text",
+							"value": "Cháu muốn phúc khảo bài thi thpt của cháu",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
