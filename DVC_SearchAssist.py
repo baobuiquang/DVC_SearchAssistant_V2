@@ -3,7 +3,34 @@ import json
 import csv
 import re
 
-def thutuc2content(thutuc_item):
+def thutuc2context_full(thutuc_item):
+    return f"""\
+### Thủ tục: {thutuc_item['name']}
+Trình tự thực hiện:
+{thutuc_item['Trình tự thực hiện']}
+Cách thức thực hiện:
+{thutuc_item['Cách thức thực hiện']}
+Thành phần hồ sơ:
+{thutuc_item['Thành phần hồ sơ']}
+Thời gian giải quyết:
+{thutuc_item['Thời gian giải quyết']}
+Đối tượng thực hiện:
+{thutuc_item['Đối tượng thực hiện']}
+Cơ quan thực hiện:
+{thutuc_item['Cơ quan thực hiện']}
+Kết quả:
+{thutuc_item['Kết quả']}
+Phí, lệ phí:
+{thutuc_item['Phí, lệ phí']}
+Tên mẫu đơn, tờ khai:
+{thutuc_item['Tên mẫu đơn, tờ khai']}
+Yêu cầu, điều kiện:
+{thutuc_item['Yêu cầu, điều kiện']}
+Căn cứ pháp lý:
+{thutuc_item['Căn cứ pháp lý']}
+"""
+
+def thutuc2content_full(thutuc_item):
     CHARACTERS_LIMIT = 300
     XEMCHITIET_TEXT = f"... <a href='{thutuc_item['link']}' target='_blank'>(xem chi tiết)</a>"
     bot_response = f"""\
@@ -34,32 +61,58 @@ def thutuc2content(thutuc_item):
 # <p>{thutuc_item['Căn cứ pháp lý'][:CHARACTERS_LIMIT]}{XEMCHITIET_TEXT if len(thutuc_item['Căn cứ pháp lý']) > CHARACTERS_LIMIT else ''}</p>\
     return bot_response
 
-def thutuc2context(thutuc_item):
-    return f"""\
-### Thủ tục: {thutuc_item['name']}
-Trình tự thực hiện:
-{thutuc_item['Trình tự thực hiện']}
-Cách thức thực hiện:
-{thutuc_item['Cách thức thực hiện']}
-Thành phần hồ sơ:
-{thutuc_item['Thành phần hồ sơ']}
-Thời gian giải quyết:
-{thutuc_item['Thời gian giải quyết']}
-Đối tượng thực hiện:
-{thutuc_item['Đối tượng thực hiện']}
-Cơ quan thực hiện:
-{thutuc_item['Cơ quan thực hiện']}
-Kết quả:
-{thutuc_item['Kết quả']}
-Phí, lệ phí:
-{thutuc_item['Phí, lệ phí']}
-Tên mẫu đơn, tờ khai:
-{thutuc_item['Tên mẫu đơn, tờ khai']}
-Yêu cầu, điều kiện:
-{thutuc_item['Yêu cầu, điều kiện']}
-Căn cứ pháp lý:
-{thutuc_item['Căn cứ pháp lý']}
-"""
+def thutuc2content_parts(thutuc_item, ls_parts_user_want):
+    bot_response = f"""<h2>Thủ tục: {thutuc_item['name']}</h2>"""
+    for partuserwant in ls_parts_user_want:
+        bot_response += f"""<h3>{partuserwant}:</h3><p>{thutuc_item[partuserwant]}</p>"""    
+    bot_response += f"""<h3>Xem đầy đủ văn bản thủ tục tại:</h3><a href='{thutuc_item['link']}' target='_blank'>{thutuc_item['link']}</a>"""
+    return bot_response
+
+from bin.NLPT.NLPT import Process_NLPT_Normalize
+def craft_content_to_display_for_user(input_text, best_thutuc):
+    # -----
+    ls_thutuc_parts = [
+        'Trình tự thực hiện', 
+        'Cách thức thực hiện', 
+        'Thành phần hồ sơ', 
+        'Thời gian giải quyết', 
+        'Đối tượng thực hiện', 
+        'Cơ quan thực hiện', 
+        'Kết quả', 
+        'Phí, lệ phí', 
+        'Tên mẫu đơn, tờ khai', 
+        'Yêu cầu, điều kiện', 
+        'Căn cứ pháp lý',
+    ]
+    ls_thutuc_user_want_which_part = [
+        ['Trình tự thực hiện', 'trình tự', 'thực hiện'], 
+        ['Cách thức thực hiện', 'cách thức', 'thực hiện'], 
+        ['Thành phần hồ sơ', 'thành phần', 'hồ sơ'], 
+        ['Thời gian giải quyết', 'thời gian'], 
+        ['Đối tượng thực hiện', 'đối tượng', 'thực hiện'], 
+        ['Cơ quan thực hiện', 'cơ quan'], 
+        ['Kết quả'], 
+        ['Phí, lệ phí', 'lệ phí', 'chi phí'], 
+        ['Tên mẫu đơn, tờ khai', 'mẫu đơn', 'tờ khai'], 
+        ['Yêu cầu, điều kiện', 'yêu cầu', 'điều kiện'], 
+        ['Căn cứ pháp lý', 'căn cứ', 'pháp lý'], 
+    ]
+    for i, el in enumerate(ls_thutuc_user_want_which_part):
+        ls_thutuc_user_want_which_part[i] += [Process_NLPT_Normalize(ele) for ele in el]
+    # -----
+    ls_id_that_user_want = []
+    for i, el in enumerate(ls_thutuc_user_want_which_part):
+        for ele in el:
+            if ele.lower() in input_text.lower():
+                ls_id_that_user_want.append(i)
+                break
+    ls_parts_user_want = [ls_thutuc_parts[idx] for idx in ls_id_that_user_want]
+    # print(f"🍌🍌🍌🍌🍌 > ls_parts_user_want: {ls_parts_user_want}")
+    # -----
+    if len(ls_parts_user_want) == 0:                                   # The default -> full
+        return thutuc2content_full(best_thutuc)
+    else:                                                              # The special -> parts
+        return thutuc2content_parts(best_thutuc, ls_parts_user_want)
 
 # ====================================================================================================
 # ====================================================================================================
@@ -192,17 +245,18 @@ Lưu ý quan trọng: Nếu không có thủ tục nào liên quan, trả về "
                             "name": thutucs[eee3_idx_in_thutucs]["name"],
                             "link": thutucs[eee3_idx_in_thutucs]["link"],
                         })
-                        context_pool_from_suggestions.append(thutuc2context(thutucs[eee3_idx_in_thutucs]))
+                        context_pool_from_suggestions.append(thutuc2context_full(thutucs[eee3_idx_in_thutucs]))
                     # ========== ------------------------- ========== /
 
-                    context_pool_from_bestthutuc  = thutuc2context(best_thutuc)
+                    context_pool_from_bestthutuc  = thutuc2context_full(best_thutuc)
                     context_pool_from_suggestions = "\n\n".join(context_pool_from_suggestions)
 
                     # ========== Return ========== \
                     final_obj_for_api["code"] = best_thutuc["code"]
                     final_obj_for_api["name"] = best_thutuc["name"]
                     final_obj_for_api["link"] = best_thutuc["link"]
-                    final_obj_for_api["content"] = thutuc2content(best_thutuc)
+                    # final_obj_for_api["content"] = thutuc2content_full(best_thutuc)
+                    final_obj_for_api["content"] = craft_content_to_display_for_user(input_text, best_thutuc)
                     final_obj_for_api["suggestions"] = suggest_thutucs
                     # final_obj_for_api["context_pool"] = context_pool_from_bestthutuc
                     # ========== ------ ========== /

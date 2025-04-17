@@ -78,6 +78,12 @@ demo = gr.ChatInterface(
         avatar_images=(None, "https://raw.githubusercontent.com/baobuiquang/DVC_SearchAssistant_V2/refs/heads/main/static/logo.png")),
     textbox=gr.Textbox(elem_id="cmp_textbox", submit_btn=True, stop_btn=True, placeholder="Nhập câu hỏi ở đây"),
     examples = [
+        "Điều kiện đăng ký kết hôn là gì?",
+        "Thời gian giải quyết phúc khảo bài thi tốt nghiệp là bao lâu?",
+        "can cu phap ly dang ky khai sinh",
+        "Lệ phí thành lập hộ kinh doanh là bao nhiêu?",
+        "Thành phần hồ sơ cấp lý lịch tư pháp gồm những gì?",
+        "Thành lập doanh nghiệp tư nhân yêu cầu những gì?",
         "Vợ tôi sắp sinh con tôi cần làm gì?",
         "Giấy tờ cần thiết để mình khởi nghiệp.",
         "Tôi muốn tố cáo hàng xóm trồng cần sa.",
@@ -99,6 +105,5 @@ app = gr.mount_gradio_app(app, demo, path="/demo")
 # ====================================================================================================
 
 if __name__ == "__main__":
-    uvicorn.run(app, host = "localhost", port = 5002)
-    # uvicorn.run(app, host = "localhost", port = 5002, log_level="critical", log_config=None)
+    uvicorn.run(app, host = "0.0.0.0", port = 5002)
     # uvicorn.run(app, host = "0.0.0.0", port = 5002, log_level="critical", log_config=None)
