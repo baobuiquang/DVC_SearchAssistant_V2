@@ -68,6 +68,29 @@ def thutuc2content_parts(thutuc_item, ls_parts_user_want):
     bot_response += f"""<h3>Xem đầy đủ văn bản thủ tục tại:</h3><a href='{thutuc_item['link']}' target='_blank'>{thutuc_item['link']}</a>"""
     return bot_response
 
+
+def craft_content_data(best_thutuc):
+    try:
+        ls_thutuc_parts = [
+            'Trình tự thực hiện', 
+            'Cách thức thực hiện', 
+            'Thành phần hồ sơ', 
+            'Thời gian giải quyết', 
+            'Đối tượng thực hiện', 
+            'Cơ quan thực hiện', 
+            'Kết quả', 
+            'Phí, lệ phí', 
+            'Tên mẫu đơn, tờ khai', 
+            'Yêu cầu, điều kiện', 
+            'Căn cứ pháp lý',
+        ]
+        res = {}
+        for el in ls_thutuc_parts:
+            res[el] = best_thutuc[el]
+        return res
+    except:
+        return {}
+
 from bin.NLPT.NLPT import Process_NLPT_Normalize
 def craft_content_to_display_for_user(input_text, best_thutuc):
     # -----
@@ -257,6 +280,7 @@ Lưu ý quan trọng: Nếu không có thủ tục nào liên quan, trả về "
                     final_obj_for_api["link"] = best_thutuc["link"]
                     # final_obj_for_api["content"] = thutuc2content_full(best_thutuc)
                     final_obj_for_api["content"] = craft_content_to_display_for_user(input_text, best_thutuc)
+                    final_obj_for_api["content_data"] = craft_content_data(best_thutuc)
                     final_obj_for_api["suggestions"] = suggest_thutucs
                     # final_obj_for_api["context_pool"] = context_pool_from_bestthutuc
                     # ========== ------ ========== /
