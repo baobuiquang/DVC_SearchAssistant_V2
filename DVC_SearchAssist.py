@@ -84,9 +84,22 @@ def craft_content_data(best_thutuc):
             'Yêu cầu, điều kiện', 
             'Căn cứ pháp lý',
         ]
+        ls_thutuc_names = [
+            'trinh_tu_thuc_hien', 
+            'cach_thuc_thuc_hien', 
+            'thanh_phan_ho_so', 
+            'thoi_gian_giai_quyet', 
+            'doi_tuong_thuc_hien', 
+            'co_quan_thuc_hien', 
+            'ket_qua', 
+            'phi_le_phi', 
+            'ten_mau_don_to_khai', 
+            'yeu_cau_dieu_kien', 
+            'can_cu_phap_ly',
+        ]
         res = {}
-        for el in ls_thutuc_parts:
-            res[el] = best_thutuc[el]
+        for ii, el in enumerate(ls_thutuc_parts):
+            res[ls_thutuc_names[ii]] = best_thutuc[el]
         return res
     except:
         return {}
