@@ -93,16 +93,23 @@ Thông tin đường dây nóng:
     # ====================================================================================================
     {
         "questions": [
+            "tra cứu hồ sơ", "hồ sơ trực tuyến", "tìm kiếm hồ sơ",
+            "tra cứu",
         ],
         "answer": {
             "input": "[🍌 change this text]",
             "code": "",
-            "name": "🍌🍌🍌🍌🍌🍌🍌🍌🍌🍌",
+            "name": "Tra cứu hồ sơ trực tuyến",
             "link": "",
             "content": """\
+<h2>Tra cứu hồ sơ trực tuyến</h2>
+<p>
+Tra cứu hồ sơ trực tuyến tại: <a href='https://dichvucong.lamdong.gov.vn/vi/dossier/public' target='_blank'>https://dichvucong.lamdong.gov.vn/vi/dossier/public</a>
+</p>
 """,
             "content_data": {
                 "raw": """\
+Tra cứu hồ sơ trực tuyến tại: https://dichvucong.lamdong.gov.vn/vi/dossier/public
 """
             },
             "suggestions": [

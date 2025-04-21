@@ -83,10 +83,9 @@ demo = gr.ChatInterface(
         "cach nop ho so",
         "Hướng dẫn làm thủ tục",
 
-        "Số điện thoại đường dây nóng",
+        "Tra cứu hồ sơ",
+        "sđt đường dây nóng hỗ trợ",
         "",
-        "",
-        # "Tra cứu hồ sơ",
         
         "Điều kiện đăng ký kết hôn là gì?",
         "Thời gian giải quyết phúc khảo bài thi tốt nghiệp là bao lâu?",
