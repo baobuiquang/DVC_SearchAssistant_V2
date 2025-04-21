@@ -2,6 +2,30 @@ import numpy as np
 import json
 import csv
 import re
+from url.hardcoded_faqs import HARDCODED_FAQS
+
+# ====================================================================================================
+from bin.NLPT.NLPT import Process_NLPT_Normalize
+# CONVERT: ['hướng dẫn', 'hồ sơ']
+# TO:      ['hướng dẫn', 'hướng dan', 'huong dẫn', 'huong dan', 'hồ sơ', 'hồ so', 'ho sơ', 'ho so']
+def create_normalied_list_of_text(myls):
+    def combine_lists_with_spaces(list1, list2):
+        result = []
+        def backtrack(index=0, current=""):
+            if index == len(list1):
+                result.append(current.strip()) 
+                return
+            sep = " " if index < len(list1) - 1 else ""
+            backtrack(index + 1, current + list1[index] + sep)
+            backtrack(index + 1, current + list2[index] + sep)
+        backtrack()
+        return result
+    res = [item for sublist in [combine_lists_with_spaces(ele.split(), [Process_NLPT_Normalize(el) for el in ele.split()]) for ele in myls] for item in sublist]
+    return res
+
+# ====================================================================================================
+# ====================================================================================================
+# ====================================================================================================
 
 def thutuc2context_full(thutuc_item):
     return f"""\
@@ -64,10 +88,10 @@ def thutuc2content_full(thutuc_item):
 def thutuc2content_parts(thutuc_item, ls_parts_user_want):
     bot_response = f"""<h2>Thủ tục: {thutuc_item['name']}</h2>"""
     for partuserwant in ls_parts_user_want:
-        bot_response += f"""<h3>{partuserwant}:</h3><p>{thutuc_item[partuserwant]}</p>"""    
+        thutuc_item_partuserwant_replace_newline = thutuc_item[partuserwant].replace('\n', '<br>')
+        bot_response += f"""<h3>{partuserwant}:</h3><p>{thutuc_item_partuserwant_replace_newline}</p>"""    
     bot_response += f"""<h3>Xem đầy đủ văn bản thủ tục tại:</h3><a href='{thutuc_item['link']}' target='_blank'>{thutuc_item['link']}</a>"""
     return bot_response
-
 
 def craft_content_data(best_thutuc):
     try:
@@ -104,7 +128,6 @@ def craft_content_data(best_thutuc):
     except:
         return {}
 
-from bin.NLPT.NLPT import Process_NLPT_Normalize
 def craft_content_to_display_for_user(input_text, best_thutuc):
     # -----
     ls_thutuc_parts = [
@@ -133,8 +156,8 @@ def craft_content_to_display_for_user(input_text, best_thutuc):
         ['Yêu cầu, điều kiện', 'yêu cầu', 'điều kiện'], 
         ['Căn cứ pháp lý', 'căn cứ', 'pháp lý'], 
     ]
-    for i, el in enumerate(ls_thutuc_user_want_which_part):
-        ls_thutuc_user_want_which_part[i] += [Process_NLPT_Normalize(ele) for ele in el]
+    for i in range(len(ls_thutuc_user_want_which_part)):
+        ls_thutuc_user_want_which_part[i] = create_normalied_list_of_text(ls_thutuc_user_want_which_part[i])
     # -----
     ls_id_that_user_want = []
     for i, el in enumerate(ls_thutuc_user_want_which_part):
@@ -154,8 +177,7 @@ def craft_content_to_display_for_user(input_text, best_thutuc):
 # ====================================================================================================
 # ====================================================================================================
 
-# -----
-# Read cache_2
+# ----- Read cache_2
 with open("url/cache_2", mode="r", newline="", encoding="utf-8") as f:
     thutucs = [e for e in csv.DictReader(f)]
     thutuc_keys = list(thutucs[0].keys())
@@ -178,11 +200,13 @@ from bin.LLM.LLM import Process_LLM
 # ====================================================================================================
 
 def DVC_SearchAssist(input_text):
+    # ----- Some input_text pre-processing
+    input_text = input_text.strip()                # Remove trailing space-like characters
+    input_text = re.sub(r'\s+', ' ', input_text)   # Replace multiple space-like characters with single space
     # ================================================== HYSE Search
     # -----
-    queries = [input_text.strip()]
+    queries = [input_text]
     hyse_search_result = hyse_engine.search(queries)
-
     # -----
     res_search_all_idx = []
     for possible_thutuc in hyse_search_result[0]:
@@ -190,7 +214,6 @@ def DVC_SearchAssist(input_text):
             if original_thutuc_name in possible_thutuc["content"]:
                 res_search_all_idx.append(iidx)
                 break
-
     # ================================================== LLM Prompt
     p_danhsachthutuc = [{"Mã chuẩn": thutucs[idx]["code"], "Tên thủ tục": thutucs[idx]["name"]} for idx in res_search_all_idx]
     p_json_schema_1 = """\
@@ -221,19 +244,30 @@ Lưu ý quan trọng: Nếu không có thủ tục nào liên quan, trả về "
 """
 
     # ================================================== LLM Processing and Final
-
+    # Default object to return if there is error
     final_obj_for_api = {
         "input": input_text,
         "code": "",
         "name": "",
         "link": "https://dichvucong.lamdong.gov.vn/",
         "content": "Mình có thể giúp được gì cho bạn?",
+        "content_data": {},
         "suggestions": [],
         "context_pool": "",
     }
-    if input_text.strip() == "":
+    # ------------------------------ 1️⃣ Special Case 1: input_text is empty
+    if input_text == "":
         return final_obj_for_api
+    # ------------------------------ 2️⃣ Special Case 2: input_text is in hardcode_faq
+    for faq in HARDCODED_FAQS:
+        possible_faq_questions = create_normalied_list_of_text(faq["questions"])
+        for el in possible_faq_questions:
+            if el.lower() in input_text.lower():
+                final_obj_for_api = faq["answer"]
+                final_obj_for_api["input"] = input_text
+                return final_obj_for_api
 
+    # ------------------------------ 3️⃣ Case 3: input_text is normal search text -> LLM
     for _ in range(3):
         llmres1 = Process_LLM(prompt_1)
         regex_match = re.search(r'\{.*\}', llmres1, re.S)
@@ -242,11 +276,9 @@ Lưu ý quan trọng: Nếu không có thủ tục nào liên quan, trả về "
                 llm_object_1 = json.loads(regex_match.group())
                 llm_object_1_idx_in_thutucs = next((icc for icc, dcc in enumerate(thutucs) if dcc["code"] == llm_object_1["Mã chuẩn"].strip()), -1)
                 if llm_object_1_idx_in_thutucs != -1:
-
                     # ========== The best thutuc by LLM ========== \
                     best_thutuc = thutucs[llm_object_1_idx_in_thutucs]
                     # ========== ---------------------- ========== /
-
                     # ========== Just thutucs suggestions ========== \
                     MIN_SIM_VS_LLMRES_TO_BE_SUGGESTED = 0.91
                     # -----
@@ -283,10 +315,8 @@ Lưu ý quan trọng: Nếu không có thủ tục nào liên quan, trả về "
                         })
                         context_pool_from_suggestions.append(thutuc2context_full(thutucs[eee3_idx_in_thutucs]))
                     # ========== ------------------------- ========== /
-
                     context_pool_from_bestthutuc  = thutuc2context_full(best_thutuc)
                     context_pool_from_suggestions = "\n\n".join(context_pool_from_suggestions)
-
                     # ========== Return ========== \
                     final_obj_for_api["code"] = best_thutuc["code"]
                     final_obj_for_api["name"] = best_thutuc["name"]
@@ -297,12 +327,11 @@ Lưu ý quan trọng: Nếu không có thủ tục nào liên quan, trả về "
                     final_obj_for_api["suggestions"] = suggest_thutucs
                     # final_obj_for_api["context_pool"] = context_pool_from_bestthutuc
                     # ========== ------ ========== /
-
                     break
             except:
                 pass
-
     return final_obj_for_api
+    # ------------------------------ END
 
 # ====================================================================================================
 # ====================================================================================================

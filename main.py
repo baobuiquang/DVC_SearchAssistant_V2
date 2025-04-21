@@ -51,14 +51,15 @@ main { margin-bottom: 24px !important; max-width: 900px !important; }
 """
 
 def fn_chatbot(message, history):
+    # --------------------------------------------------
     dvcsa_res = DVC_SearchAssist(message)
-    bot_suggestions = "## Một số thủ tục liên quan:\n" + "\n".join([f"* `{e['code']}` [{e['name']}]({e['link']})" for e in dvcsa_res['suggestions']])
-    bot_response = [
-        dvcsa_res['content'],
-        bot_suggestions,
-    ]
+    bot_suggestions = "## Một số văn bản liên quan:\n" + "\n".join([f"* `{e['code']}` [{e['name']}]({e['link']})" for e in dvcsa_res['suggestions']])
+    if len(dvcsa_res['suggestions']) > 0:
+        bot_response = [dvcsa_res['content'], bot_suggestions]
+    else:
+        bot_response = [dvcsa_res['content']]
     bot_response = [str(e) for e in bot_response]
-
+    # --------------------------------------------------
     # Just streaming, if no, just simply return bot_response
     bot_response_stream = []
     for iii, eee in enumerate(bot_response):
@@ -78,6 +79,9 @@ demo = gr.ChatInterface(
         avatar_images=(None, "https://raw.githubusercontent.com/baobuiquang/DVC_SearchAssistant_V2/refs/heads/main/static/logo.png")),
     textbox=gr.Textbox(elem_id="cmp_textbox", submit_btn=True, stop_btn=True, placeholder="Nhập câu hỏi ở đây"),
     examples = [
+        "Hướng dẫn sử dụng",
+        "cach nop ho so",
+        "Hướng dẫn làm thủ tục",
         "Điều kiện đăng ký kết hôn là gì?",
         "Thời gian giải quyết phúc khảo bài thi tốt nghiệp là bao lâu?",
         "can cu phap ly dang ky khai sinh",
@@ -87,9 +91,9 @@ demo = gr.ChatInterface(
         "Vợ tôi sắp sinh con tôi cần làm gì?",
         "Giấy tờ cần thiết để mình khởi nghiệp.",
         "Tôi muốn tố cáo hàng xóm trồng cần sa.",
-        "Tôi muốn thành lập công ty tnhh 1 thành viên",
-        "Tôi muốn thành lập công ty tnhh 2 thành viên",
-        "Tôi muốn thành lập công ty tnhh 9 thành viên",
+        # "Tôi muốn thành lập công ty tnhh 1 thành viên",
+        # "Tôi muốn thành lập công ty tnhh 2 thành viên",
+        # "Tôi muốn thành lập công ty tnhh 9 thành viên",
         "Đấu thầu đất xây dựng",
         "Làm sao để cưới chồng?",
         "Đất đai",
