@@ -53,7 +53,7 @@ main { margin-bottom: 24px !important; max-width: 900px !important; }
 def fn_chatbot(message, history):
     # --------------------------------------------------
     dvcsa_res = DVC_SearchAssist(message)
-    bot_suggestions = "## Một số văn bản liên quan:\n" + "\n".join([f"* `{e['code']}` [{e['name']}]({e['link']})" for e in dvcsa_res['suggestions']])
+    bot_suggestions = "## Gợi ý liên quan:\n" + "\n".join([f"* `{e['code']}` [{e['name']}]({e['link']})" for e in dvcsa_res['suggestions']])
     if len(dvcsa_res['suggestions']) > 0:
         bot_response = [dvcsa_res['content'], bot_suggestions]
     else:
@@ -82,6 +82,12 @@ demo = gr.ChatInterface(
         "Hướng dẫn sử dụng",
         "cach nop ho so",
         "Hướng dẫn làm thủ tục",
+
+        "Số điện thoại đường dây nóng",
+        "",
+        "",
+        # "Tra cứu hồ sơ",
+        
         "Điều kiện đăng ký kết hôn là gì?",
         "Thời gian giải quyết phúc khảo bài thi tốt nghiệp là bao lâu?",
         "can cu phap ly dang ky khai sinh",
