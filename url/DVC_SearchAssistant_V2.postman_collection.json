@@ -12,7 +12,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://192.168.20.60:5002/?input_text=Giấy tờ cần thiết để mình khởi nghiệp.",
+					"raw": "http://192.168.20.60:5002/?input_text=test",
 					"protocol": "http",
 					"host": [
 						"192",
@@ -27,12 +27,17 @@
 					"query": [
 						{
 							"key": "input_text",
+							"value": "test"
+						},
+						{
+							"key": "input_text",
 							"value": "Cách nộp hồ sơ",
 							"disabled": true
 						},
 						{
 							"key": "input_text",
-							"value": "Giấy tờ cần thiết để mình khởi nghiệp."
+							"value": "Giấy tờ cần thiết để mình khởi nghiệp.",
+							"disabled": true
 						},
 						{
 							"key": "input_text",

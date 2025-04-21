@@ -19,18 +19,18 @@ HARDCODED_FAQS = [
 <h2>Hướng dẫn sử dụng cổng dịch vụ công để nộp hồ sơ/thủ tục</h2>
 <h3>Bước 1: Đăng nhập</h3>
 <ul>
-    <li>Truy cập trang chủ Dịch vụ công Lâm Đồng: https://dichvucong.lamdong.gov.vn</li>
-    <li>Bấm nút [Đăng nhập] -> Chọn [Tài khoản Định danh điện tử cấp bởi Bộ Công an dành cho Công dân]</li>
-    <li>Đăng nhập bằng mã định danh/mật khẩu hoặc mở app VNeID để quét QR code.</li>
+<li>Truy cập trang chủ Dịch vụ công Lâm Đồng: https://dichvucong.lamdong.gov.vn</li>
+<li>Bấm nút [Đăng nhập] -> Chọn [Tài khoản Định danh điện tử cấp bởi Bộ Công an dành cho Công dân]</li>
+<li>Đăng nhập bằng mã định danh/mật khẩu hoặc mở app VNeID để quét QR code.</li>
 </ul>
 <h3>Bước 2: Tiến hành nộp hồ sơ</h3>
 <ul>
-    <li>Vào Menu [Dịch vụ công trực tuyến], tìm thủ tục theo Mã thủ tục hoặc tên thủ tục, bấm nút [Tìm kiếm]</li>
-    <li>Bấm nút [Nộp trực tuyến] để bắt đầu nộp hồ sơ</li>
-    <li>Chọn Cấp thủ tục, đơn vị cần nộp hồ sơ -> Bấm [Đồng ý]</li>
-    <li>Điền đầy đủ thông tin người nộp -> Bấm [Tiếp tục]</li>
-    <li>Đính kèm thành phần hồ sơ -> Bấm [Tiếp tục]</li>
-    <li>Nhập đủ thông tin -> Chọn ngân hàng thanh toán -> Bấm [Thanh toán]</li>
+<li>Vào Menu [Dịch vụ công trực tuyến], tìm thủ tục theo Mã thủ tục hoặc tên thủ tục, bấm nút [Tìm kiếm]</li>
+<li>Bấm nút [Nộp trực tuyến] để bắt đầu nộp hồ sơ</li>
+<li>Chọn Cấp thủ tục, đơn vị cần nộp hồ sơ -> Bấm [Đồng ý]</li>
+<li>Điền đầy đủ thông tin người nộp -> Bấm [Tiếp tục]</li>
+<li>Đính kèm thành phần hồ sơ -> Bấm [Tiếp tục]</li>
+<li>Nhập đủ thông tin -> Chọn ngân hàng thanh toán -> Bấm [Thanh toán]</li>
 </ul>
 <p>Sau khi thanh toán, bạn sẽ được chuyển về màn hình nộp hồ sơ thành công.</p>
 <h3>Xem đầy đủ văn bản hướng dẫn tại:</h3>
@@ -54,16 +54,6 @@ Sau khi thanh toán, bạn sẽ được chuyển về màn hình nộp hồ sơ
 """
             },
             "suggestions": [
-                {
-                    "code": "dichvucong.lamdong.gov.vn",
-                    "name": "Hướng dẫn sử dụng - Cổng dịch vụ công tỉnh Lâm Đồng",
-                    "link": "https://dichvucong.lamdong.gov.vn/vi/support/tutorial"
-                },
-                {
-                    "code": "dichvucong.gov.vn",
-                    "name": "Hướng dẫn chung - Cổng dịch vụ công quốc gia",
-                    "link": "https://dichvucong.gov.vn/p/home/dvc-huong-dan-cong-dan-doanh-nghiep.html"
-                },
             ],
             "context_pool": "",
         }
@@ -82,8 +72,8 @@ Sau khi thanh toán, bạn sẽ được chuyển về màn hình nộp hồ sơ
 <h2>Đường dây nóng hỗ trợ</h2>
 <h3>Thông tin đường dây nóng:</h3>
 <ul>
-    <li>Đường dây nóng hỗ trợ: (02633)533428</li>
-    <li>Email hỗ trợ: hcc@lamdong.gov.vn</li>
+<li>Đường dây nóng hỗ trợ: (02633)533428</li>
+<li>Email hỗ trợ: hcc@lamdong.gov.vn</li>
 </ul>
 <h3>Xem thông tin đường dây nóng mới nhất tại:</h3>
 <a href='https://dichvucong.lamdong.gov.vn/vi/support/hotline' target='_blank'>https://dichvucong.lamdong.gov.vn/vi/support/hotline</a>
@@ -96,11 +86,6 @@ Thông tin đường dây nóng:
 """
             },
             "suggestions": [
-                {
-                    "code": "dichvucong.lamdong.gov.vn",
-                    "name": "Đường dây nóng - Cổng dịch vụ công tỉnh Lâm Đồng",
-                    "link": "https://dichvucong.lamdong.gov.vn/vi/support/hotline"
-                },
             ],
             "context_pool": "",
         }

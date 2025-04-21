@@ -249,7 +249,7 @@ Lưu ý quan trọng: Nếu không có thủ tục nào liên quan, trả về "
         "input": input_text,
         "code": "",
         "name": "",
-        "link": "https://dichvucong.lamdong.gov.vn/",
+        "link": "",
         "content": "Mình có thể giúp được gì cho bạn?",
         "content_data": {},
         "suggestions": [],
