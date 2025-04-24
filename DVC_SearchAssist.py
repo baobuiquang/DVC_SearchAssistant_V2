@@ -1,5 +1,6 @@
 from datetime import datetime
 import numpy as np
+import logging
 import json
 import csv
 import re
@@ -7,6 +8,13 @@ import os
 from url.hardcoded_faqs import HARDCODED_FAQS
 
 os.makedirs("_log", exist_ok=True)
+file_handler = logging.FileHandler('_log/log.txt', encoding='utf-8')
+logging.basicConfig(
+    handlers=[file_handler],
+    level=logging.INFO,
+    format='%(asctime)s | %(message)s',
+    datefmt='%y%m%d%H%M%S'
+)
 
 # ====================================================================================================
 from bin.NLPT.NLPT import Process_NLPT_Normalize
@@ -208,8 +216,7 @@ def DVC_SearchAssist(input_text):
     input_text = input_text.strip()                # Remove trailing space-like characters
     input_text = re.sub(r'\s+', ' ', input_text)   # Replace multiple space-like characters with single space
     # ----- Log 📄
-    with open("_log/log.txt", 'a', encoding='utf-8') as f:
-        f.write(f"{datetime.now().strftime('%y%m%d%H%M%S')} | '{input_text}'\n")
+    logging.info(f"'{input_text}'")
     # ================================================== HYSE Search
     # -----
     queries = [input_text]
